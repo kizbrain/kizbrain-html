@@ -1429,11 +1429,9 @@ function unlockAppUI(state) {
     const startTxt = LICENSE_GUARD.fmtDate(cfg.startDate);
     const expTxt = LICENSE_GUARD.fmtDate(cfg.expirationDate);
     const rangeTxt = startTxt ? `${startTxt} ~ ${expTxt}` : expTxt;
-    const dLeftTxt = (state.daysLeft >= 0) ? ` · 남은 ${state.daysLeft}일` : "";
     licBox.innerHTML =
       `<div class="licWho">${acaTxt}</div>` +
-      `<div class="licExp">사용기간<br><b>${rangeTxt}</b>${dLeftTxt}</div>` +
-      `<span class="notice">${NOTICE_SHORT}</span>`;
+      `<div class="licExp"><b>${rangeTxt}</b></div>`;
   }
   // 만료 30일 전 배너
   renderExpiryBanner(state);
