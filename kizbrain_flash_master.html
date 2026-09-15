@@ -77,8 +77,12 @@
     color:var(--paper-dim);font-size:13px;border-radius:0 var(--radius) var(--radius) 0
   }
   .combo-arrow:hover{color:var(--bead)}
-  header .lic{font-size:13px;color:var(--paper-dim);text-align:right;white-space:nowrap}
+  header .lic{font-size:11px;color:var(--paper-dim);text-align:right;line-height:1.45;max-width:220px}
   header .lic b{color:var(--paper);font-weight:600}
+  header .lic .licWho{font-size:11px;color:var(--paper-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  header .lic .licExp{white-space:nowrap;margin-top:1px}
+  header .lic .licExp b{font-size:13px;font-weight:700}
+  header .lic .notice{display:block;margin-top:2px}
 
   aside{
     background:var(--ink-2);
@@ -1249,6 +1253,7 @@
 const INJECTED_CONFIG = {
   academyName    : "__ACADEMY_NAME__",
   contactName    : "__CONTACT_NAME__",
+  startDate      : "__START_DATE__",
   expirationDate : "__EXPIRATION_DATE__",
   lastSyncTime   : "__LAST_SYNC_TIME__"
 };
@@ -1302,6 +1307,7 @@ const LICENSE_GUARD = (() => {
     return {
       academyName    : pick(INJECTED_CONFIG.academyName),
       contactName    : pick(INJECTED_CONFIG.contactName),
+      startDate      : pick(INJECTED_CONFIG.startDate),
       expirationDate : pick(INJECTED_CONFIG.expirationDate),
       lastSyncTime   : pick(INJECTED_CONFIG.lastSyncTime)
     };
@@ -1409,8 +1415,9 @@ let _guardTimer = null;
 function showAgreeModal(state) {
   const contactSuffix = state.cfg.contactName ? ` (<b>${esc(state.cfg.contactName)}</b>)` : "";
   const acaLine = `본 사본은 <b>${esc(state.cfg.academyName || "— 미배포 사본 —")}</b>${contactSuffix} 전용으로 배포된 프로그램입니다.`;
+  const startTxt = LICENSE_GUARD.fmtDate(state.cfg.startDate);
   const expLine = state.expMs
-    ? `${LICENSE_GUARD.fmtDate(state.cfg.expirationDate)} 까지 (한국시각 23:59:59)`
+    ? `${startTxt ? startTxt + " ~ " : ""}${LICENSE_GUARD.fmtDate(state.cfg.expirationDate)} 까지 (한국시각 23:59:59)`
     : "미지정";
   const el = $("#agreeAcademyLine"); if (el) el.innerHTML = acaLine;
   const el2 = $("#agreeExpLine"); if (el2) el2.innerHTML = expLine;
@@ -1447,11 +1454,12 @@ function unlockAppUI(state) {
   const licBox = $("#licInfo");
   if (licBox) {
     const acaTxt = esc(cfg.academyName || "") + (cfg.contactName ? ` · ${esc(cfg.contactName)}` : "");
+    const startTxt = LICENSE_GUARD.fmtDate(cfg.startDate);
     const expTxt = LICENSE_GUARD.fmtDate(cfg.expirationDate);
-    const dLeftTxt = (state.daysLeft >= 0) ? ` · 남은 일수 ${state.daysLeft}일` : "";
+    const rangeTxt = startTxt ? `${startTxt} ~ ${expTxt}` : expTxt;
     licBox.innerHTML =
-      `<b>${acaTxt}</b> · 사용 기한 ${expTxt} 까지${dLeftTxt}<br>` +
-      `<span class="notice">${NOTICE_SHORT}</span>`;
+      `<div class="licWho">${acaTxt}</div>` +
+      `<div class="licExp"><b>${rangeTxt}</b></div>`;
   }
   // 만료 30일 전 배너
   renderExpiryBanner(state);
@@ -4692,3 +4700,4 @@ function printGradePractice(gradeType, grade, subject, count) {
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
+
