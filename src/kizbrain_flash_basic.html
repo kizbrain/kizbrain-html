@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>키즈브레인 킨더가든 플래시암산 (KIZBRAIN)</title>
+<title>KIZBRAIN basic</title>
 
 <!-- PWA: 안드로이드 크롬에서 "홈 화면에 추가"로 앱처럼 설치 가능, 오프라인 캐싱 지원 -->
 <link rel="manifest" href="manifest.json">
@@ -468,6 +468,53 @@
   }
   @media (prefers-reduced-motion:reduce){ *{transition:none!important} }
 
+  /* ── 태블릿·TV미러링 화면 맞춤 (2026-09-16) ───────────────────────
+     PC(1281px 이상, 높이 821px 이상)에는 아래 규칙이 전혀 적용되지 않음 */
+  @media screen{
+    #app{height:var(--appH,100vh)}   /* JS가 실제 보이는 높이(주소창·하단바 제외)를 넣어줌 */
+  }
+  #fingerMain{transform-origin:top left}   /* 주판 화면 축소 기준점(축소가 필요할 때만 JS가 scale 적용) */
+  @media (min-width:901px) and (max-width:1280px){   /* 태블릿 가로 */
+    #app{grid-template-columns:260px 1fr}
+    aside{padding:16px 14px 24px;gap:16px}
+    header{padding:10px 16px;gap:12px}
+    header .who{gap:8px}
+    header .who input{min-width:0;width:150px;font-size:16px;padding:8px 10px}
+    header .who .banner{min-width:0;font-size:20px}
+    header .who{min-width:0}
+    header .lic{flex:0 0 150px;max-width:150px}   /* 라이선스 문구가 좁아져 세로 한 글자씩 늘어지는 문제 방지 */
+    header .brand{flex-shrink:0;font-size:16px}
+    header .who{flex-wrap:wrap;row-gap:6px}
+    header .who .combo{flex:0 1 150px;min-width:110px}
+    header .who .combo input{width:100%}
+    main{padding:16px}
+    .stage{gap:18px}
+    main .controls button, #fingerControls > span{white-space:nowrap;padding:8px 12px!important;font-size:14px!important}
+    #fingerControls{flex-wrap:wrap!important;justify-content:center}
+  }
+  @media (min-width:901px) and (max-width:1100px){   /* 작은 태블릿 가로 — 휴대폰 화면과 같이 라이선스 문구는 숨김 */
+    header .brand small{display:none}
+    header .lic{display:none}
+  }
+  @media (max-height:820px){   /* 높이가 낮은 화면(태블릿 가로·미러링) */
+    header{padding-top:8px;padding-bottom:8px}
+    main{padding-top:12px;padding-bottom:12px}
+    .stage{gap:14px}
+    .display{min-height:30vh}
+  }
+  @media (max-width:900px){   /* 태블릿 세로·휴대폰 */
+    aside{z-index:60;width:min(300px,86vw)}   /* 열렸을 때 헤더에 윗부분이 가려지지 않게 헤더보다 위로(닫기 버튼이 맨 위에 있음) */
+    aside.open{box-shadow:4px 0 18px rgba(0,0,0,.35)}
+    header{padding:10px 12px;gap:10px}
+    header .who{flex-wrap:wrap;gap:8px}
+    header .who input{min-width:0;flex:1 1 120px;font-size:16px;padding:8px 10px}
+    header .who .banner{min-width:0;font-size:18px}
+    main{padding:12px}
+    .stage{gap:16px}
+    main .controls button, #fingerControls > span{white-space:nowrap}
+    #fingerControls{flex-wrap:wrap!important;justify-content:center}   /* 버튼줄이 좁은 폭에서 넘치지 않게 줄바꿈 */
+  }
+
   /* ── 세로형 인쇄 서식(주판 급수시험 표준) ────────────────── */
   .vgTable{width:100%;border-collapse:collapse;table-layout:fixed}
   .vgTable .vgCell{border:1px solid #999;vertical-align:top;padding:4px 6px 8px;width:20%}
@@ -584,7 +631,7 @@
 <div id="app">
   <header>
     <button id="sideToggle" aria-label="설정 열기">☰ 설정</button>
-    <div class="brand">키즈브레인 킨더가든 플래시암산<small>KIZBRAIN · 유치원용</small></div>
+    <div class="brand">KIZBRAIN basic<small>키즈브레인 플래시 암산</small></div>
     <div class="who">
       <span id="academyName" style="background:#363c46;border:1px solid var(--ink-3);border-radius:var(--radius);padding:10px 14px;font-size:18px;font-weight:700;color:var(--paper);white-space:nowrap;display:inline-block" title="인증된 학원명(수정 불가)"></span>
       <div class="combo">
@@ -1019,6 +1066,7 @@
         <h3>기타</h3>
         <dl>
           <dt>⏻ 프로그램 종료</dt><dd>사이드바 맨 아래에 있으며, 프로그램 창을 닫습니다.</dd>
+          <dt>💾 오프라인으로 저장해 쓰기</dt><dd>인터넷 없이 쓰려면 이 화면에서 키보드 <b>Ctrl+S</b>를 누릅니다. 저장 창이 열리면, <b>파일 이름 칸 밑에 있는 "파일 형식" 선택 칸</b>을 눌러 <b>"웹페이지, HTML만"</b>을 고른 뒤 저장하세요. (바로 위의 "웹페이지, 전체"를 고르면 화면만 저장되어 실행되지 않습니다.) 저장한 파일을 열면 인터넷 없이 그대로 쓸 수 있습니다. 저장 시점의 학원명·사용기간이 고정되니, 갱신하려면 온라인으로 다시 접속해 저장하세요.</dd>
         </dl>
       </div>
     
@@ -1551,7 +1599,7 @@ const OP_NAMES = { add:"덧셈", sub:"뺄셈", addsub:"덧뺄셈", mul:"곱셈",
            → 첫 항은 항상 가장 큰 자리 그룹에서, 나머지 항은 순서를 섞어 배치.
            같은 엔진으로 만/십만/…/조 단위까지 groups 데이터만 추가하면 확장된다.
 ═══════════════════════════════════════════════════════════════ */
-const LEVEL_ORDER = ["L3","L4","L5","L6","L7","L8","L9","L10","L11","L12","L13","L14","L15","L16","L17","L18","L19","L20","L21","L22"];   // (킨더가든) 21단계 이상·곱셈·나눗셈 단계는 대상에서 제외
+const LEVEL_ORDER = ["L3","L4","L5","L6","L7","L8","L9","L10","L11","L12","L13","L14","L15","L16","L17","L18","L19","L20","L21","L22"];
 const LEARN_LEVELS = {};   // 숫자 놓기는 전용 탭(운지법 배우기)으로 이전됨. 하위 호환을 위해 빈 객체로 유지(참조하는 곳이 남아있어도 안전)
 
 // 큰 수 치우침(randSkewedInt)의 기본 규칙. null이면 균등분포, 0.5 등 숫자를 넣으면
@@ -1648,7 +1696,6 @@ const PLACE_NAMES = ["일","십","백","천","만","십만","백만","천만","�
       ops: ["add", "sub"], range: [0, 15 * P],
       desc: `${fmt(P)}~${fmt(10 * P - 1)} 사이의 수 네 개와 ${N[e-1]}·${N[e-2]}·${N[e-3]} 단위 수를 더하고 뺍니다. 중간·총합이 ${fmt(15 * P)} 이내입니다.`,
     };
-    // (킨더가든) LEVEL_ORDER.push(`L${n}`, `L${n + 1}`); — 21단계 이상은 목록에 안 넣음(LEVELS 정의 자체는 안전하게 그대로 둠)
     n += 2;
   }
 }
@@ -1669,16 +1716,13 @@ const DAN_RANGE = d => (d <= 9 ? 9 : 19);
       desc: `${d} × 1 부터 ${d} × ${DAN_RANGE(d)} 까지의 문제가 섞여 나옵니다. 답을 입력하세요.` };
     LEVELS[`D${d}`] = { group: "div", kind: "card", name: `나눗셈 ${d}. ${d}단`, short: `${d}. ${d}단 (□ ÷ ${d})`, dan: d, ops: ["div"], terms: 2, maxValue: d * DAN_RANGE(d),
       desc: `${d}단을 거꾸로 푸는 나눗셈입니다. ${d * 2} ÷ ${d} 처럼 항상 나누어떨어집니다.` };
-    // (킨더가든) LEVEL_ORDER.push(`M${d}`); — 곱셈·나눗셈 단계는 목록에 안 넣음
   }
   for (const m of mixes) {
     LEVELS[`M${m.no}`] = { group: "mul", kind: "card", name: `곱셈 ${m.no}. ${m.label}`, short: `${m.no}. ${m.label}`, dans: m.dans, ops: ["mul"], terms: 2, maxValue: 19 * 19,
       desc: `${m.label} — 여러 단의 곱셈이 섞여 나옵니다.` };
     LEVELS[`D${m.no}`] = { group: "div", kind: "card", name: `나눗셈 ${m.no}. ${m.label} (나머지 포함)`, short: `${m.no}. ${m.label} · 나머지 포함`, dans: m.dans, ops: ["div"], terms: 2, maxValue: 19 * 19 + 18, remainder: true,
       desc: `${m.label} — 나누어떨어지는 문제와 나머지가 있는 문제가 섞여 나옵니다. 몫과 나머지를 입력하세요(나머지가 없으면 0 또는 빈칸).` };
-    // (킨더가든) LEVEL_ORDER.push(`M${m.no}`); — 곱셈·나눗셈 단계는 목록에 안 넣음
   }
-  // (킨더가든) 나눗셈 단계도 목록에 안 넣음
   // for (let d = 1; d <= 19; d++) LEVEL_ORDER.push(`D${d}`);
   // for (const m of mixes) LEVEL_ORDER.push(`D${m.no}`);
 }
@@ -1687,7 +1731,6 @@ const LEVEL_GROUPS = [
   { id: "mul",    label: "곱셈 (구구단 1~19단)", keys: LEVEL_ORDER.filter(k => LEVELS[k]?.group === "mul") },
   { id: "div",    label: "나눗셈 (구구단 거꾸로)", keys: LEVEL_ORDER.filter(k => LEVELS[k]?.group === "div") },
 ];
-// (킨더가든) 백의 자리·천의 자리 구간은 대상 단계가 없어서 제거, 두 자리 수 구간은 실제 있는 단계(L19~L22)까지만
 const LEVEL_STAGES = {
   basic:     ["L3","L4","L5","L6"],
   five:      ["L7","L8","L9","L10","L11","L12"],
@@ -1885,7 +1928,7 @@ const GRADES = {
       decimal:true },
   },
 };
-const GRADE_ORDER = ["13급","12급","11급","10급","9급","8급"];   // (킨더가든) 7급 이상은 대상에서 제외
+const GRADE_ORDER = ["13급","12급","11급","10급","9급","8급"];
 
 // 한 자리(0~9)에 숫자를 더하거나 뺄 때 어떤 보수가 필요한지 판정한다.
 // (아래쪽 4알 + 위쪽 5알 구조의 주판 기준. lower = 4알 부분, upper = 5알 부분)
@@ -2178,12 +2221,10 @@ if (!LEVELS[settings.level]) settings.level = "L3";   // 이전 버전에 저장
 // 2026-09-12 개편: 호산 배율 스케일이 0.8~1.3(뭉개짐 상한에 곱해지는 값)에서 1.0~1.8(느려지는 배율, 0.2 단위)로 바뀜.
 // 구버전에 저장된 값이 새 범위를 벗어나면 가장 가까운 유효 단계로 보정한다.
 settings.hosanAdj = Math.min(1.8, Math.max(1.0, Math.round(settings.hosanAdj * 5) / 5));
-// 킨더 버전은 곱셈·나눗셈 데이터/버튼이 없음(2026-09-12 정리). 이전 기기에 저장된 값이 "mul"/"div"로
 // 남아있으면 버튼이 없어도 내부적으로 GRADES[...].mul(undefined)을 읽다가 크래시가 날 수 있어 강제로 되돌린다.
 ["levelGroup","gradeSubject","examSubject","printGroup","printGradeSubject"].forEach(k => {
   if (settings[k] === "mul" || settings[k] === "div") settings[k] = "addsub";
 });
-// 킨더 버전 사이드바에는 '자유모드'·'급수연습' 진입 버튼 자체가 없음(운지법·단계별학습·급수시험·문제지 인쇄만 존재).
 // 그런데 화면(opsSection·numberSection·printFreeFields 등)과 로직은 그대로 남아있어서, 다른 버전/이전 저장값이
 // 그대로 넘어오면(localStorage 공유, 구버전 사용 이력 등) 진입 버튼 없이 해당 화면만 뜨는 "유령 상태"가 될 수 있다.
 if (settings.category === "free" || settings.category === "grade") settings.category = "levels";
@@ -2983,7 +3024,8 @@ function fingerSweepArrowShow(holdMs, moveMs) {
   const bar = wrap.querySelector(".rod .bar");
   if (!bar) return;
   const wrapRect = wrap.getBoundingClientRect(), barRect = bar.getBoundingClientRect();
-  const barTop = barRect.top - wrapRect.top, barBottom = barRect.bottom - wrapRect.top;
+  const sc = fingerScale || 1;   // 화면 맞춤 축소 중이면 원래 크기 좌표로 환산
+  const barTop = (barRect.top - wrapRect.top) / sc, barBottom = (barRect.bottom - wrapRect.top) / sc;
   [{ id: "fingerSweepArrowTop", top: barTop - 40 }, { id: "fingerSweepArrowBottom", top: barBottom + 4 }].forEach(({ id, top }) => {
     let el = document.getElementById(id);
     if (!el) {
@@ -3002,7 +3044,7 @@ function fingerSweepArrowShow(holdMs, moveMs) {
     el.dataset.sweepTimer && clearTimeout(+el.dataset.sweepTimer);
     const timer = setTimeout(() => {
       el.style.transition = "right " + moveMs + "ms linear";
-      requestAnimationFrame(() => { el.style.right = Math.max(0, wrapRect.width - 36) + "px"; });   // 오른쪽 끝(일의 자리) → 왼쪽 끝(천의 자리)
+      requestAnimationFrame(() => { el.style.right = Math.max(0, wrapRect.width / sc - 36) + "px"; });   // 오른쪽 끝(일의 자리) → 왼쪽 끝(천의 자리)
     }, holdMs);
     el.dataset.sweepTimer = String(timer);
   });
@@ -3033,10 +3075,10 @@ function fingerRodShell(i) {                 // 막대 하나(빈 틀) — 최�
 function fingerPositionBar() {
   const wrap = $("#fingerRodWrap"), rod = wrap.querySelector(".rod"), barSpacer = rod && rod.querySelector(".bar");
   if (!barSpacer) return;
-  const wrapTop = wrap.getBoundingClientRect().top - wrap.scrollTop;
+  const sc = fingerScale || 1;   // 화면 맞춤 축소 중이면 화면 좌표를 원래 크기 좌표로 환산
   const r = barSpacer.getBoundingClientRect();
-  wrap.style.setProperty("--barTop", (r.top - wrapTop) + "px");
-  wrap.style.setProperty("--barHeight", r.height + "px");
+  wrap.style.setProperty("--barTop", ((r.top - wrap.getBoundingClientRect().top) / sc + wrap.scrollTop) + "px");
+  wrap.style.setProperty("--barHeight", (r.height / sc) + "px");
 }
 // rodEl의 특정 알 하나(zone/index)의 화살표 방향(dir: "up"|"down")만 노란색으로 — 알 자체 색은 안 건드림(따로 처리)
 function fingerArrowOn(rodEl, zone, index, dir) {
@@ -3189,6 +3231,53 @@ function fingerFitCardFont(lines) {
   const size = Math.max(30, Math.min(140, perLine / 1.15));
   el.style.fontSize = size + "px";
 }
+// ── 화면 맞춤(태블릿·TV미러링) ──────────────────────────────────
+// 주판 화면(#fingerMain)이 화면에 다 안 들어갈 때만 모자란 비율만큼 통째로 축소한다(최대 1배 → PC는 그대로).
+// 알 위치 계산(52px·270px 등)은 원래 크기 기준 그대로 두고, 화면 좌표를 쓰는 곳만 fingerScale로 나눠 환산.
+var fingerScale = 1;
+function fingerFitToScreen() {
+  const stage = $("#fingerStage"), fm = $("#fingerMain"), wrap = $("#fingerRodWrap"), mainEl = document.querySelector("main");
+  if (!stage || !fm || !wrap || !mainEl || stage.hidden) return;
+  fm.style.transform = ""; fm.style.width = "100%"; fm.style.marginRight = ""; fm.style.marginBottom = "";
+  fingerScale = 1;
+  const rods = wrap.querySelectorAll(".rod");
+  if (!rods.length) return;
+  const rodsW = rods[rods.length - 1].getBoundingClientRect().right - rods[0].getBoundingClientRect().left;
+  const needW = 340 + rodsW + 40;                    // 왼쪽 숫자칸(340) + 주판 + 여유
+  const cs = getComputedStyle(mainEl);
+  const availW = stage.clientWidth;
+  let siblingsH = 0;                                 // main 안의 다른 요소(하단 안내문 등) 높이도 빼줌
+  [...mainEl.children].forEach(el => { if (el !== stage && el.offsetParent !== null && getComputedStyle(el).position === "static") siblingsH += el.offsetHeight; });
+  const availH = mainEl.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - siblingsH - 8;
+  fm.style.width = Math.max(needW, availW) + "px";
+  const hf = fm.offsetHeight, other = stage.offsetHeight - hf;   // other = 라벨·버튼줄·간격
+  let s = Math.min(1, availW / needW, (availH - other) / hf);
+  if (!(s < 0.995)) { fm.style.width = "100%"; fingerPositionBar(); return; }
+  s = Math.max(0.35, s);
+  const w = needW;
+  fingerScale = s;
+  fm.style.width = w + "px";
+  fm.style.transform = "scale(" + s + ")";
+  fm.style.marginRight = (-(w * (1 - s))) + "px";      // 축소된 만큼 차지 공간도 줄여 가운데 정렬 유지
+  fm.style.marginBottom = (4 - hf * (1 - s)) + "px";   // 아래 버튼줄을 축소된 주판 바로 밑으로
+  fingerPositionBar();
+}
+function fitAppHeight() {   // 안드로이드 크롬의 100vh가 주소창·하단바를 포함해 아래가 잘리는 문제 보정
+  document.documentElement.style.setProperty("--appH", window.innerHeight + "px");
+}
+(function () {
+  let raf = 0;
+  const run = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { fitAppHeight(); fingerFitToScreen(); }); };
+  window.addEventListener("resize", run);
+  window.addEventListener("orientationchange", () => setTimeout(run, 300));
+  if (window.ResizeObserver) {
+    const ro = new ResizeObserver(run);
+    ro.observe(document.querySelector("main"));
+    ro.observe($("#fingerStage"));
+  }
+  fitAppHeight();
+  run();
+})();
 function fingerEnsureEntriesUpTo(targetIdx) {   // 무한출제 중 목록이 모자라면 하나 더 만들어 이어붙임(계산형=새 문제, 숫자놓기형=처음부터 다시)
   if (!fingerInfinite) return;
   const lv = FINGER_LEVELS[settings.fingerLevel] || FINGER_LEVELS.N10;
@@ -3283,6 +3372,7 @@ function renderFingerFrame() {                // 탭 진입 시 등 애니메이
   $$fingerRods().forEach(r => fingerArrowsClear(r));   // 털기: 화살표 전부 삭제(다크블루 대기 상태로)
   const lv = FINGER_LEVELS[settings.fingerLevel] || FINGER_LEVELS.N10;
   fingerApplyDisplayStyle(lv);
+  fingerFitToScreen();
   $("#fingerNumberDisplay").textContent = lv.type === "calc" ? "" : "0";
   $("#fingerLabel").hidden = true;   // 숫자놓기형·계산형 둘 다 상단 라벨 삭제(사용자 요청) — 진행만 표시
   $("#fingerLabel").textContent = "숫자 0에서 시작";
